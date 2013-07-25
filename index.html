@@ -2,15 +2,89 @@
 <head>
 <meta charset="utf-8" />
 <title>blog calendar</title>
+<style>
+    html, body{
+	width:100%;
+	height:100%;
+}
+
+body {
+  shape-rendering: crispEdges;
+}
+</style>
+
 </head>
 <body>
+<div id="stage"></div>
+
 
 
 <script src="d3.v3.min.js"></script>
 <script>
 d3.json('wp.json', function(json){
-    console.log(json);
+    d3main(json);
 });
+
+
+function d3main(json) {
+    var width = 960;
+    var height = 136;
+    var cellSize = 17; // セルのサイズ指定
+    
+
+    //string→dateオブジェクト変換関数
+    var day = d3.time.format("%w");
+    var week = d3.time.format("%U");
+    var format = d3.time.format("%Y-%m-%d");
+    
+    var blogURL = json.url;
+    
+    //データ整形	
+   var data = d3.nest()
+	.key(function(d) { return d.date.split(' ')[0]; }) //dateをkeyにネスト(時間は切り落とす)
+	.map(json.item);    
+
+    //表示年の最小値と最大値を取得
+    var tmp = d3.keys(data);
+    var minYear = d3.min(tmp, function(d){  return +d.split('-')[0]　} );
+    var maxYear = d3.max(tmp, function(d){  return +d.split('-')[0]　} );
+    
+    //カレンダーの数(年毎)だけsvgタグを生成
+    var svg = d3.select("#stage").selectAll("svg")
+	    .data(d3.range(minYear, maxYear+1)) 
+	    .enter()
+	    .append("svg")
+	    .attr("width", width)
+	    .attr("height", height)
+	    .append("g")
+	    .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")"); //カレンダ―位置指定
+    
+        //年タイトル 生成 
+    svg.append("text")
+	    .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+	    .style("text-anchor", "middle")
+	    .text(function(d) { return d; });
+
+
+    //日付セル生成
+    var cell = svg.selectAll(".day") 
+	    .data(function(d) { return  d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1));})
+	    .enter()
+	    .append("rect")
+	    .attr({
+		    "class": "day",
+		    "width": cellSize,
+		    "height": cellSize,
+		    "x": function(d) { return week(d) * cellSize; },
+		    "y": function(d) { return day(d) * cellSize; },
+		    "fill": "#fff",
+		    "stroke": "#ccc"
+	})
+	.datum(format);
+    
+    
+}
+
 </script>
 
 </body>
