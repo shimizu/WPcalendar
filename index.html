@@ -112,6 +112,41 @@ function d3main(json) {
 		    return tooltip.style("visibility", "hidden");
 		})
 
+                
+                
+    //月境界pathジェネレーター
+    var monthPath = function(t0) {
+            var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+                    d0 = +day(t0), w0 = +week(t0),
+                    d1 = +day(t1), w1 = +week(t1);
+            //console.log("d0:"+d0+"/d1:"+d1+"/w0:"+w0+"/w1"+w1);
+            var path = "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
+                    + "H" + w0 * cellSize + "V" + 7 * cellSize
+                    + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
+                    + "H" + (w1 + 1) * cellSize + "V" + 0
+                    + "H" + (w0 + 1) * cellSize + "Z";
+            //console.log(path); 
+            return path;
+    }
+    
+    //日付セルを月毎にpathで分類
+    svg.selectAll(".month")
+	    .data(function(d) {
+		    var tmp = d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1));
+		    //console.log(tmp);
+		    return tmp;
+	    })
+	    .enter()
+	    .append("path")
+	    .attr({
+		    "class": "month",
+		    "d": monthPath,
+		    "fill": "none",
+		    "stroke": "#000",
+		    "stroke-width": "2px"
+	    });
+
+	                
     
 }
 
