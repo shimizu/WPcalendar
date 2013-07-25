@@ -206,7 +206,9 @@ function d3main(json) {
 	    .text("a simple tooltip");	
 
     //ステージをセンタリング
-    d3.select('#stage').style('margin-left', Math.floor((document.body.clientWidth-width)/2)+'px');
+    var windowWidth = document.body.clientWidth;
+    
+    if(windowWidth>width) d3.select('#stage').style('margin-left', Math.floor((windowWidth-width)/2)+'px');
                 
     
 }

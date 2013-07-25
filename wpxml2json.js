@@ -10,6 +10,7 @@ if(!process.argv[2])  throw 'Not File Found!';
 var file = process.argv[2];
 var data={
     url:"",
+    title:"",
     item:[]
 };
 
@@ -22,8 +23,8 @@ fs.createReadStream(file)
         console.error(error);
     })
     .on('meta', function (meta) {
-        //console.log('===== %s =====', meta.title);
         data.url = meta.link;
+        data.title= meta.title
     })
     .on('readable', function() {
         var stream = this, item;
