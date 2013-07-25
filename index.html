@@ -56,7 +56,7 @@ body {
 
 </head>
 <body>
-<h1></h1>
+<center><h1></h1></center>
 <div id="stage"></div>
 
 
@@ -156,6 +156,10 @@ function d3main(json) {
 		.on("mouseout", function(){
 		    return tooltip.style("visibility", "hidden");
 		})
+                .on('click', function(d){
+		    window.open(blogURL+'/date/'+d.replace(/-/g,'/'));
+		})
+
 
                 
                 
@@ -201,7 +205,9 @@ function d3main(json) {
 	    .style("visibility", "hidden")
 	    .text("a simple tooltip");	
 
-	                
+    //ステージをセンタリング
+    d3.select('#stage').style('margin-left', Math.floor((document.body.clientWidth-width)/2)+'px');
+                
     
 }
 
