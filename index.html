@@ -65,7 +65,7 @@ body {
 
 <script src="d3.v3.min.js"></script>
 <script>
-d3.json('wp.json', function(json){
+d3.json('wp2.json', function(json){
     d3main(json);
 });
 
@@ -208,8 +208,8 @@ function d3main(json) {
 
     //ステージをセンタリング
     var windowWidth = document.body.clientWidth;
-    
     if(windowWidth>width) d3.select('#stage').style('margin-left', Math.floor((windowWidth-width)/2)+'px');
+    
                 
     
 }
