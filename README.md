@@ -19,7 +19,7 @@ $ node wpxml2json.js [wp file]  >  wp.json
 
 wp.jsonファイルとindex.htmlをwebサーバの同じディレクトリに入れてアクセスしてください。
 
-ローカルで実行する場合は、同梱されているsimpleWebServerを使用してください。
+ローカルで実行する場合は、<a href-"https://github.com/shimizu/SimpleWebServer">simpleWebServer</a>を使用してください。
 
 ```sh
 $node simpleWebServer.js
